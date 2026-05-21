@@ -50,11 +50,27 @@ Edit `src/data/companies.ts`:
 
 Find Greenhouse `boardId` from job URLs: `https://boards.greenhouse.io/BOARD_ID/jobs/...`
 
-## Deploy (free)
+## GitHub repository
+
+**Code:** https://github.com/VU21CSEN0100380/career-tracker
+
+## Go live (free — 2 minutes)
+
+GitHub Pages **cannot** run this app (it needs a server for `/api/jobs`). Use **Vercel** (free, connects to GitHub):
+
+1. Open **[Deploy to Vercel](https://vercel.com/new/clone?repository-url=https://github.com/VU21CSEN0100380/career-tracker)**  
+2. Sign in with **GitHub** → authorize Vercel  
+3. Click **Deploy** (defaults are fine)  
+4. Wait ~2 min → you get a live URL like `https://career-tracker-xxx.vercel.app`
+
+Every `git push` to GitHub will auto-update the live site.
+
+### CLI deploy (optional)
 
 ```bash
-npm run build
-# Deploy to Vercel: vercel deploy
+npm i -g vercel
+vercel login
+vercel --prod
 ```
 
 ## Limitations (important)
