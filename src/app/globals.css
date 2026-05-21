@@ -24,3 +24,28 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Rendered job descriptions from Greenhouse/Lever HTML */
+.job-jd-content h1,
+.job-jd-content h2,
+.job-jd-content h3 {
+  color: #6ee7b7;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+}
+.job-jd-content p,
+.job-jd-content li {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+.job-jd-content ul,
+.job-jd-content ol {
+  padding-left: 1.25rem;
+}
+.job-jd-content a {
+  color: #34d399;
+  text-decoration: underline;
+}
+.job-jd-content strong {
+  color: #e2e8f0;
+}

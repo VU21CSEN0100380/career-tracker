@@ -101,13 +101,20 @@ export function detectJobType(title: string, text: string): JobType {
 
 export function matchesBtech(text: string, strict: boolean): boolean {
   const hit = BTECH_PATTERNS.some((p) => p.test(text));
-  if (strict) return hit;
-  // Relaxed: engineering roles often imply B.Tech; still require student/grad signals
-  return hit || (/\b(engineer|developer|software|technology)\b/i.test(text) && PASSOUT_2025_PATTERNS.some((p) => p.test(text)));
+  if (strict) {
+    return (
+      hit ||
+      /\b(engineer|developer|software|devops|sre|cloud|technology|computer science)\b/i.test(text)
+    );
+  }
+  return hit || /\b(engineer|developer|software|technology|devops)\b/i.test(text);
 }
 
 export function matches2025Passout(text: string): boolean {
-  return PASSOUT_2025_PATTERNS.some((p) => p.test(text));
+  return (
+    PASSOUT_2025_PATTERNS.some((p) => p.test(text)) ||
+    /\b(intern|internship|graduate|university|campus|entry[\s-]level|fresher|early career)\b/i.test(text)
+  );
 }
 
 export function matchesRegion(locationText: string, regions: Region[]): boolean {
@@ -134,8 +141,10 @@ export function filterJobs(
 
   return jobs.filter((job) => {
     const text = `${job.title} ${job.description} ${job.experienceHint} ${job.location}`;
-    if (opts.requireBtech && !matchesBtech(text, true)) return false;
-    if (opts.require2025 && !matches2025Passout(text)) return false;
+    const isPortal = job.source === "manual";
+
+    if (opts.requireBtech && !isPortal && !matchesBtech(text, true)) return false;
+    if (opts.require2025 && !isPortal && !matches2025Passout(text)) return false;
     if (opts.jobTypes.length) {
       const typeOk =
         job.jobType === "both" ||
@@ -144,8 +153,10 @@ export function filterJobs(
     }
     if (opts.regions.length && !matchesRegion(job.location, opts.regions)) return false;
     if (q) {
-      const hay = text.toLowerCase();
-      if (!hay.includes(q) && !job.companyName.toLowerCase().includes(q)) return false;
+      const hay = `${job.title} ${text} ${job.companyName}`.toLowerCase();
+      const terms = q.split(/\s+/).filter(Boolean);
+      const allTermsMatch = terms.every((term) => hay.includes(term));
+      if (!allTermsMatch) return false;
     }
     return true;
   });
