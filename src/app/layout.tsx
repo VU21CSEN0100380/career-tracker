@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Career Tracker | B.Tech 2025 — India & Europe",
   description:
-    "Find internship and full-time roles for B.Tech 2025 passouts from India and Europe company career pages.",
+    "Job board for B.Tech 2025 passouts — internship and full-time roles in India and Europe with company logos and job descriptions.",
 };
 
 export default function RootLayout({
